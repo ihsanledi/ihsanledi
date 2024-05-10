@@ -1,0 +1,208 @@
+#update, tambah, dan hapus dictionary
+#menampilkan data dictionary
+
+def isiDict(Data):
+
+     print("Berikut adalah data yang tersedia:")
+for x,y in Data.items():
+  print("NPM: "+str(x)+" Nama: "+str(y["nama"])+ ", Angkatan: "+str(y["angkatan"]) + ", Alamat: "+str(y["alamat"]))
+
+#pengecekan isi variabel
+def Checker(cek2,cek3):
+    Ada = False
+    Ada2 = False
+    cek2 =["1","2","3","4","5","6","7","8","9","0"]
+
+    cek3 = ["A","a","B","b","C","c","D","d","E","e","F","f","G","g","H","h","I","i","J","j","K","k","L","l","M","m","N",
+
+            "n","O","o","P","p","Q","q","R","r","S","s","T","t","U","u","V","v","W","w","X","x","Y","y","Z","z"," "]    
+
+    kecuali = ["!", "`","@","#","$","%","^","&","*","(",")","-","_","=","+","[","]","{","}",
+
+               ";",":",'"',"'",",","<",">","/","?","\\","|"]
+
+    kecuali2 = [str(npm),str(angkatan),str(nama),str(alamat)]
+
+    for v in cek2:
+      if v in str(nama):
+         Ada2 = True
+         print(1)
+
+    for z in cek3:
+       if z in str(npm) or z in str(angkatan):
+          Ada2 = True
+          print(2)
+
+    for y in kecuali2:
+       if y.isspace():
+          Ada2 = True
+          print(3)
+
+    for x in kecuali:
+      if x in str(npm) or x in str(angkatan) or x in str(nama) or x in str(alamat):
+        Ada = True        
+        print(4)  
+
+    if Ada == False and Ada2 == False:
+      global isian_benar
+      isian_benar = False
+
+      global lolos_cek
+      lolos_cek = True
+    else:
+      print ("\nData inputan salah, harap masukkan data dengan tepat!\n1.NPM = hanya angka\n2.Nama = hanya huruf\n3.Angkatan = hanya angka\n4.Alamat = hanya angka dan huruf\n")        
+
+
+
+def MintaInput():
+          global npm
+          global nama
+          global angkatan
+          global alamat
+
+          print("\n")
+          isiDict(mahasiswa)
+          npm = input("silahkan masukkan NPM: ")
+          nama = input("silahkan masukkan Nama: ")
+          angkatan = input("silahkan masukkan Angkatan: ")
+          alamat = input("silahkan masukkan Alamat: ")
+
+          Checker(cek2,cek3)
+
+#create variabel
+jalankan = True
+perulangan = False
+sudah_ada = True
+belum_ada = True
+isian_benar = True
+cek2 = None
+cek3 = None
+detected = 0
+npm = None
+nama = None
+angkatan = None
+alamat = None
+lolos_cek = False
+
+mahasiswa = {
+  "2371020001" : {
+    "nama" : "Emil",
+    "angkatan" : 2004,
+    "alamat" : "Jakarta"
+  },
+  "2371020002" : {
+    "nama" : "Tobias",
+    "angkatan" : 2007,
+    "alamat" : "Medan"
+  },
+  "2371020003" : {
+    "nama" : "Linus",
+    "angkatan" : 2011,
+    "alamat" : "Sumedang"
+  }
+}
+
+while jalankan:
+    if perulangan == False:
+      jawaban = str(input("Selamat Datang!\n\nSilahkan pilih menu yang tersedia:\n1. Cek data yang ada\n2. Masukkan data baru\n3. Hapus data\n4. Update data\n5. Keluar\nJawaban: "))
+    else:
+      jawaban = str(input("Silahkan pilih menu yang tersedia: \n1. Cek data yang ada\n2. Masukkan data baru\n3. Hapus data\n4. Update data\n5. Keluar\nJawaban: "))
+      sudah_ada = True
+      belum_ada = True
+      isian_benar = True
+      cek2 = None
+      cek3 = None
+      npm = None
+      nama = None
+      angkatan = None
+      alamat = None
+      detected = 0
+
+#Logic if else
+#checking user answear
+    if jawaban == "1":
+        perulangan = True
+        print("\n")
+        isiDict(mahasiswa)
+        print("\n")
+
+    elif jawaban == "2":
+         perulangan = True
+
+#loop for the condition we need
+         while sudah_ada == True:
+          while isian_benar == True:
+            MintaInput()    
+
+          for x in mahasiswa:
+            if x == npm:
+              print("\nData dengan npm ini sudah ada!")
+              isian_benar = True
+              break
+          else:
+              sudah_ada = False
+
+              mahasiswaUpdate = {
+              npm : {
+                "nama" : nama,
+                "angkatan" : angkatan,
+                "alamat" : alamat
+                }
+                }
+
+              mahasiswa.update(mahasiswaUpdate)
+              perulangan = True
+              print("\n==============================\nData berhasil ditambahkan!\n==============================\n")
+
+    elif jawaban == "3":
+        perulangan = True
+
+#check if dictionary is not empty
+        if mahasiswa != {}:
+          print("\n")
+          isiDict(mahasiswa)
+          # hapus isi
+          Hapus = input("\nSilahkan pilih Npm yang ingin dihapus: ")
+
+          if Hapus in mahasiswa:
+            mahasiswa.pop(Hapus)
+
+            #me looping data yang ada pada dictionary mahasiswa
+            print("\n==============================\nData berhasil dihapus!\n==============================\n")
+
+            isiDict(mahasiswa)
+            print("\n")   
+          else:
+             print("\nNPM tersebut tidak ada!")
+        else:
+           print("\nTidak ada data yang bisa dihapus\n")
+
+
+    elif jawaban == "4":
+        perulangan = True
+
+        while belum_ada == True:
+          MintaInput()
+
+          while lolos_cek:
+            if npm not in mahasiswa:
+              print("\nData dengan npm ini belum ada!")
+              lolos_cek = False
+            else:
+              belum_ada = False
+              mahasiswaUpdate = {
+              npm : {
+                "nama" : nama,
+                "angkatan" : angkatan,
+                "alamat" : alamat
+                }
+                }
+
+              mahasiswa.update(mahasiswaUpdate)
+              print("\n==============================\nData berhasil diupdate!\n==============================\n")
+              lolos_cek = False
+
+    elif  jawaban == "5":
+       jalankan = False
+    else :
+        print("\nHarap pilih menu yang tersedia")
